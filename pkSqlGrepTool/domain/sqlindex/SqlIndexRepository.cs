@@ -89,9 +89,40 @@ namespace pkSqlGrepTool.domain.sqlindex
                     try
                     {
                         var fs = File.OpenRead(filepath);
-                        var readLists = parser.fromJson(fs);
+                        var readLists = parser.FromJson(fs);
                         list.AddRange(readLists);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
+                    {
+                        // にぎりつぶして次に？
+                        Console.Error.WriteLine(ex);
+                    }
+                }
+                return list;
+            };
+        }
+        public static Func<List<SqlIndex>> FromCsvFiles(List<string> filepaths)
+        {
+            return () =>
+            {
+                var parser = new SqlFileParaser();
+                var list = new List<SqlIndex>();
+
+                foreach (var filepath in filepaths)
+                {
+                    if (!File.Exists(filepath) || Directory.Exists(filepath))
+                    {
+                        continue;
+                    }
+
+                    // TODO: Exceptionどうしよう？アプリ的にはメッセージをpipeするstreamが別口であればいいけど、うーん
+                    try
+                    {
+                        var fs = File.OpenRead(filepath);
+                        var readLists = parser.FromCsv(fs);
+                        list.AddRange(readLists);
+                    }
+                    catch (Exception ex)
                     {
                         // にぎりつぶして次に？
                         Console.Error.WriteLine(ex);

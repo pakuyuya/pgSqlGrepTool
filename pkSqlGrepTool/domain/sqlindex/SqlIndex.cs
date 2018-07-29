@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using pkSqlGrepTool.csv;
 
 namespace pkSqlGrepTool.domain.sqlindex
 {
@@ -28,7 +29,7 @@ namespace pkSqlGrepTool.domain.sqlindex
 
         }
 
-        public List<SqlIndex> fromJson(Stream input)
+        public List<SqlIndex> FromJson(Stream input)
         {
             var maptemplate = plainMaps();
 
@@ -68,20 +69,24 @@ namespace pkSqlGrepTool.domain.sqlindex
             return map.ContainsKey(key) ? map[key] : null;
         }
 
-
-        public List<SqlIndex> fromCsv(Stream input)
+        public List<SqlIndex> FromCsv(Stream input)
         {
-            var maptemplate = plainMaps();
+            var list = new List<SqlIndex>();
+            var reader = new CsvReader(input);
+            var parser = new CsvParser();
 
-            var setting = new DataContractJsonSerializerSettings()
+            string line;
+            while ((line = reader.ReadLine()) != null)
             {
-                UseSimpleDictionaryFormat = true,
-            };
-            var serializer = new DataContractJsonSerializer(maptemplate.GetType(), setting);
+                var cols = parser.ParseLine(line);
 
-            var maps = (List<Dictionary<string, string>>)serializer.ReadObject(input);
+                SqlIndex idx = new SqlIndex();
+                idx.title = cols.Count >= 1 ? cols[0] : "";
+                idx.sql = cols.Count >= 2 ? cols[1] : "";
 
-            return maps.Select(map => map2index(map)).ToList();
+                list.Add(idx);
+            }
+            return list;
         }
     }
 

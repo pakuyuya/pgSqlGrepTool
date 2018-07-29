@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using pkSqlGrepTool.Properties;
 
 namespace pkSqlGrepTool.appcore
 {
@@ -26,8 +27,10 @@ namespace pkSqlGrepTool.appcore
             return Task.Run(() =>
             {
                 var pathes = SqlFile.ListupPathes();
+                var loader = Settings.Default.SqlFile_Format == "json" ? SqlIndexLoader.FromJsonFiles(pathes) : SqlIndexLoader.FromCsvFiles(pathes);
+
                 SqlRepository.Clear();
-                SqlRepository.Load(SqlIndexLoader.FromJsonFiles(pathes));
+                SqlRepository.Load(loader);
             });
         }
         public static Task<List<SqlIndex>> RequestSearch(string search, params Func<searchOpt, searchOpt>[] opts)
