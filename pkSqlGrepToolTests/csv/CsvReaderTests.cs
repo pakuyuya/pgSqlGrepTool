@@ -15,7 +15,7 @@ namespace pkSqlGrepTool.csv.Tests
         [TestMethod()]
         public void ReadLineTest()
         {
-            Func<string, int, string, bool> test = (string raw, int time, string expect) =>
+            Action<string, int, string> test = (string raw, int time, string expect) =>
             {
                 var ms = new MemoryStream(Encoding.UTF8.GetBytes(raw));
                 var reader = new CsvReader(ms);
@@ -26,21 +26,22 @@ namespace pkSqlGrepTool.csv.Tests
                 }
                 ms.Close();
 
-                return expect == result;
+                Assert.AreEqual(expect, result);
             };
 
-            Assert.IsTrue(test("a,b,c,d", 1, "a,b,c,d"));
-            Assert.IsTrue(test("a,b\r\nc,d", 1, "a,b"));
-            Assert.IsTrue(test("a,b\rc,d", 1, "a,b"));
-            Assert.IsTrue(test("a,b\nc,d", 1, "a,b"));
-            Assert.IsTrue(test("a,b\r\nc,d", 2, "c,d"));
-            Assert.IsTrue(test("a,b\rc,d", 2, "c,d"));
-            Assert.IsTrue(test("a,b\nc,d", 2, "c,d"));
-            Assert.IsTrue(test("a,b\r\n\r\nc,d", 2, "c,d"));
-            Assert.IsTrue(test("\"a\",\"b\"", 1, "\"a\",\"b\""));
-            Assert.IsTrue(test("\"a\r\n\",\"b\"", 1, "\"a\r\n\",\"b\""));
-            Assert.IsTrue(test("\"a\r\n\",\"b\"\r\n", 1, "\"a\r\n\",\"b\""));
-            Assert.IsTrue(test("\"a\r\n\",\"b\"\r\n", 2, ""));
+            test("a,b,c,d", 1, "a,b,c,d");
+            test("a,b\r\nc,d", 1, "a,b");
+            test("a,b\rc,d", 1, "a,b");
+            test("a,b\nc,d", 1, "a,b");
+            test("a,b\r\nc,d", 2, "c,d");
+            test("a,b\rc,d", 2, "c,d");
+            test("a,b\nc,d", 2, "c,d");
+            test("a,b\r\n\r\nc,d", 2, "c,d");
+            test("\"a\",\"b\"", 1, "\"a\",\"b\"");
+            test("\"a\r\n\",\"b\"", 1, "\"a\r\n\",\"b\"");
+            test("\"a\r\n\",\"b\"\r\n", 1, "\"a\r\n\",\"b\"");
+            test("\"a\r\n\",\"b\"\r\n", 2, "");
+            test("\"a\"\"b\"", 1, "\"a\"b\"");
         }
     }
 }

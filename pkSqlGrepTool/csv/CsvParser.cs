@@ -7,30 +7,26 @@ using System.IO;
 
 namespace pkSqlGrepTool.csv
 {
-    public class CsvReader // : TextReader
+    public class CsvParser // : TextParser
     {
-        private TextReader reader;
-        private CsvReadOption option;
-        public CsvReader(Stream stream, params Func<CsvReadOption, CsvReadOption>[] opts)
+        private CsvParseOption option;
+        public CsvParser(params Func<CsvParseOption, CsvParseOption>[] opts)
         {
-            option = new CsvReadOption();
-            this.reader = new StreamReader(stream);
+            option = new CsvParseOption();
             foreach (var opt in opts)
             {
                 option = opt(option);
             }
         }
 
-        public string ReadLine()
+        public List<string> ParseLine(string line)
         {
-            StringBuilder sb = new StringBuilder();
-
-            bool b = _rowstart(ref sb);
-
-            return b ? sb.ToString() : null;
+            var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(line)));
+            return _rowstart(reader);
         }
-        private bool _rowstart(ref StringBuilder sb)
+        private List<string> _rowstart(TextReader reader)
         {
+            var cols = new List<string>();
             int c;
             while (true)
             {
@@ -42,23 +38,32 @@ namespace pkSqlGrepTool.csv
             }
             if (c == -1)
             {
-                return false;
+                return cols;
             }
 
-            while (_colstart(c, ref sb))
+            while (true)
             {
-                c = option.delimiter;
+                var sb = new StringBuilder();
+                var ret = _colstart(c, ref sb, reader);
+                var col = sb.ToString();
+                cols.Add(col);
+                c = -2;
+
+                if (!ret)
+                {
+                    break;
+                }
             }
 
-            return true;
+            return cols;
         }
-        private bool _colstart(int prevc, ref StringBuilder sb)
+        private bool _colstart(int prevc, ref StringBuilder sb, TextReader reader)
         {
             int quote = -1;
-            if (prevc >= 0) {
-                while(option.SkipHeadSpace && Char.IsWhiteSpace((char)prevc))
+            if (prevc >= 0)
+            {
+                while (option.SkipHeadSpace && Char.IsWhiteSpace((char)prevc))
                 {
-                    sb.Append(prevc);
                     prevc = reader.Read();
                 }
                 if (isQuote(prevc))
@@ -70,16 +75,12 @@ namespace pkSqlGrepTool.csv
             {
                 return false;
             }
-            return _coldata(prevc, quote, ref sb);
+            return _coldata(prevc, quote, ref sb, reader);
         }
-        
-        private bool _coldata(int prevc, int quote, ref StringBuilder sb)
+
+        private bool _coldata(int prevc, int quote, ref StringBuilder sb, TextReader reader)
         {
-            if (prevc == -1)
-            {
-                return false;
-            }
-            else
+            if (prevc >= 0)
             {
                 sb.Append((char)prevc);
             }
@@ -90,10 +91,11 @@ namespace pkSqlGrepTool.csv
                 bool crtIsQuoteEnd = false;
                 var c = reader.Read();
 
-                if (c == -1) {
+                if (c == -1)
+                {
                     return false;
                 }
-                else if(isLineFeed(c) && !isQuote(quote))
+                else if (isLineFeed(c) && !isQuote(quote))
                 {
                     return false;
                 }
@@ -140,20 +142,10 @@ namespace pkSqlGrepTool.csv
             return option.Quotes.IndexOf((char)c) >= 0;
         }
     }
-    public class CsvReadOption
+    public class CsvParseOption
     {
         public bool SkipHeadSpace = false;
-        public bool IgnoreHeader = false;
         public string Quotes = "\"'";
         public char delimiter = ',';
-
-        public static Func<CsvReadOption, CsvReadOption> withIgnoreHeader(bool flg)
-        {
-            return (opt) =>
-            {
-                opt.IgnoreHeader = true;
-                return opt;
-            };
-        }
     }
 }

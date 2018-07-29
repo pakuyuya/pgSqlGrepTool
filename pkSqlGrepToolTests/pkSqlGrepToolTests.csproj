@@ -56,6 +56,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="csv\CsvParserTests.cs" />
     <Compile Include="csv\CsvReaderTests.cs" />
     <Compile Include="domain\sqlindex\SqlFileParaserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="appcore\SqlFileFacade.cs" />
+    <Compile Include="csv\CsvParser.cs" />
     <Compile Include="csv\CsvReader.cs" />
     <Compile Include="domain\sqlindex\SqlFile.cs" />
     <Compile Include="domain\sqlindex\SqlIndex.cs" />
