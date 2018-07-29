@@ -88,9 +88,11 @@ namespace pkSqlGrepTool.domain.sqlindex
                     // TODO: Exceptionどうしよう？アプリ的にはメッセージをpipeするstreamが別口であればいいけど、うーん
                     try
                     {
-                        var fs = File.OpenRead(filepath);
-                        var readLists = parser.FromJson(fs);
-                        list.AddRange(readLists);
+                        using (var fs = File.OpenRead(filepath))
+                        {
+                            var readLists = parser.FromJson(fs);
+                            list.AddRange(readLists);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -118,9 +120,11 @@ namespace pkSqlGrepTool.domain.sqlindex
                     // TODO: Exceptionどうしよう？アプリ的にはメッセージをpipeするstreamが別口であればいいけど、うーん
                     try
                     {
-                        var fs = File.OpenRead(filepath);
-                        var readLists = parser.FromCsv(fs);
-                        list.AddRange(readLists);
+                        using (var fs = File.OpenRead(filepath))
+                        {
+                            var readLists = parser.FromCsv(fs);
+                            list.AddRange(readLists);
+                        }
                     }
                     catch (Exception ex)
                     {

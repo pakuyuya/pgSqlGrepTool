@@ -18,13 +18,11 @@ namespace pkSqlGrepTool
         public MainForm()
         {
             InitializeComponent();
-            lbList.DataSource = listSqls;
-            lbList.DisplayMember = "title";
         }
 
 
         // inner component
-
+        
         Task taskRefleshIndex = null;
         Task taskSearch = null;
 
@@ -45,7 +43,8 @@ namespace pkSqlGrepTool
                 .ContinueWith((t) => {
                     drawEndLoadIndex();
                     taskRefleshIndex = null;
-                });
+                })
+                .ContinueWith((t) => { requestSearch(); });
         }
 
         private void requestSearch()
@@ -68,7 +67,7 @@ namespace pkSqlGrepTool
                 .ContinueWith((t) => {
                     listSqls.Clear();
                     listSqls.AddRange(t.Result);
-                    drawEndSearch();
+                    this.Invoke(new Action(drawEndSearch));
                     taskSearch = null;
                 });
         }
@@ -96,7 +95,8 @@ namespace pkSqlGrepTool
 
         private void drawEndSearch()
         {
-
+            lbList.Items.Clear();
+            lbList.Items.AddRange(listSqls.ToArray());
         }
 
         private void drawSqlContext()
@@ -105,8 +105,8 @@ namespace pkSqlGrepTool
                             .Select( (idx) =>
                             {
                                 return "-- "
-                                        + idx.title + "\r\n"
-                                        + idx.sql + "\r\n";
+                                        + idx.Title + "\r\n"
+                                        + idx.Sql + "\r\n";
                             });
 
             var content = string.Join("\r\n\r\n", sqlTexts);
@@ -145,6 +145,23 @@ namespace pkSqlGrepTool
         private void リロードToolStripMenuItem_Click(object sender, EventArgs e)
         {
             requestLoadIndex();
+        }
+
+        private void txContent_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                txContent.SelectAll();
+        }
+
+        private void lbList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                for (var i=0; i<lbList.Items.Count; i++)
+                {
+                    lbList.SetSelected(i, true);
+                }
+            }
         }
     }
 }

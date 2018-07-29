@@ -40,7 +40,7 @@ namespace pkSqlGrepTool.domain.sqlindex.Tests
                     (ary) =>
                     {
                         var row = ary[0];
-                        return row.sql == "select 1;" ? "" : "sql attribute is not expected value.";
+                        return row.Sql == "select 1;" ? "" : "sql attribute is not expected value.";
                     }
                 )
             };
@@ -60,7 +60,7 @@ namespace pkSqlGrepTool.domain.sqlindex.Tests
             var parser = new SqlFileParaser();
 
             var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
-            var result = parser.fromJson(ms);
+            var result = parser.FromJson(ms);
 
             return testfunc(result);
         }

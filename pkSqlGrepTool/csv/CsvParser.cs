@@ -21,7 +21,7 @@ namespace pkSqlGrepTool.csv
 
         public List<string> ParseLine(string line)
         {
-            var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(line)));
+            var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(line)), System.Text.Encoding.GetEncoding("UTF-8"));
             return _rowstart(reader);
         }
         private List<string> _rowstart(TextReader reader)
@@ -60,16 +60,18 @@ namespace pkSqlGrepTool.csv
         private bool _colstart(int prevc, ref StringBuilder sb, TextReader reader)
         {
             int quote = -1;
-            if (prevc >= 0)
+            if (prevc == -1)
             {
-                while (option.SkipHeadSpace && Char.IsWhiteSpace((char)prevc))
-                {
-                    prevc = reader.Read();
-                }
-                if (isQuote(prevc))
-                {
-                    quote = prevc;
-                }
+                return false;
+            }
+
+            while (option.SkipHeadSpace && Char.IsWhiteSpace((char)prevc))
+            {
+                prevc = reader.Read();
+            }
+            if (isQuote(prevc))
+            {
+                quote = prevc;
             }
             if (prevc == -1 || isLineFeed(prevc))
             {
@@ -80,7 +82,7 @@ namespace pkSqlGrepTool.csv
 
         private bool _coldata(int prevc, int quote, ref StringBuilder sb, TextReader reader)
         {
-            if (prevc >= 0)
+            if (prevc >= 0 && !isQuote(prevc))
             {
                 sb.Append((char)prevc);
             }
@@ -90,6 +92,7 @@ namespace pkSqlGrepTool.csv
             {
                 bool crtIsQuoteEnd = false;
                 var c = reader.Read();
+                char cc = (char)c;
 
                 if (c == -1)
                 {
@@ -103,16 +106,11 @@ namespace pkSqlGrepTool.csv
                 {
                     crtIsQuoteEnd = true;
                     quote = -1;
-                    sb.Append((char)c);
                 }
                 else if (isQuote(c))
                 {
                     quote = c;
-                    if (c == prevc)
-                    {
-                        // skip. cascaded double quote.
-                    }
-                    else
+                    if (prevIsQuoteEnd && prevc == c)
                     {
                         sb.Append((char)c);
                     }

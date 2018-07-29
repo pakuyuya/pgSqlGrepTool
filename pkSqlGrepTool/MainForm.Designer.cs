@@ -128,6 +128,7 @@
             // cbCondWord
             // 
             this.cbCondWord.AutoSize = true;
+            this.cbCondWord.Enabled = false;
             this.cbCondWord.Location = new System.Drawing.Point(12, 85);
             this.cbCondWord.Name = "cbCondWord";
             this.cbCondWord.Size = new System.Drawing.Size(69, 16);
@@ -144,16 +145,19 @@
             // 
             // lbList
             // 
+            this.lbList.DisplayMember = "Title";
             this.lbList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbList.FormattingEnabled = true;
             this.lbList.ItemHeight = 12;
             this.lbList.Location = new System.Drawing.Point(0, 0);
             this.lbList.Name = "lbList";
             this.lbList.ScrollAlwaysVisible = true;
+            this.lbList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbList.Size = new System.Drawing.Size(183, 351);
             this.lbList.TabIndex = 0;
             this.lbList.TabStop = false;
             this.lbList.SelectedIndexChanged += new System.EventHandler(this.lbList_SelectedIndexChanged);
+            this.lbList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbList_KeyDown);
             // 
             // splitContainer2
             // 
@@ -176,10 +180,10 @@
             this.txContent.Location = new System.Drawing.Point(0, 0);
             this.txContent.Multiline = true;
             this.txContent.Name = "txContent";
-            this.txContent.ReadOnly = true;
             this.txContent.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.txContent.Size = new System.Drawing.Size(694, 434);
             this.txContent.TabIndex = 0;
+            this.txContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txContent_KeyDown);
             // 
             // menuStrip1
             // 

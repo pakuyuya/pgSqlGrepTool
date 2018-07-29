@@ -106,14 +106,7 @@ namespace pkSqlGrepTool.csv
                 else if (isQuote(c))
                 {
                     quote = c;
-                    if (c == prevc)
-                    {
-                        // skip. cascaded double quote.
-                    }
-                    else
-                    {
-                        sb.Append((char)c);
-                    }
+                    sb.Append((char)c);
                 }
                 else if (!isQuote(quote) && c == option.delimiter)
                 {

@@ -12,11 +12,11 @@ namespace pkSqlGrepTool.domain.sqlindex
     /// <summary>
     /// SQLの検索インデックスです
     /// </summary>
-    public struct SqlIndex
+    public class SqlIndex
     {
-        public string title;
-        public string sql;
-        public DateTime createAt;
+        public string Title { get; set; }
+        public string Sql { get; set; }
+        public DateTime CreateAt { get; set; }
     }
 
     /// <summary>
@@ -54,12 +54,12 @@ namespace pkSqlGrepTool.domain.sqlindex
         {
             var idx = new SqlIndex();
 
-            idx.createAt = new DateTime();
+            idx.CreateAt = new DateTime();
 
-            idx.sql = Read(map, "sql") ?? "";
+            idx.Sql = Read(map, "sql") ?? "";
 
             var titles = (new List<string> { Read(map, "tag1") ?? "", Read(map, "tag2") ?? "", Read(map, "tag3") ?? "" }).Where(t => t != "").ToList();
-            idx.title = string.Join("-", titles);
+            idx.Title = string.Join("-", titles);
 
             return idx;
         }
@@ -81,8 +81,8 @@ namespace pkSqlGrepTool.domain.sqlindex
                 var cols = parser.ParseLine(line);
 
                 SqlIndex idx = new SqlIndex();
-                idx.title = cols.Count >= 1 ? cols[0] : "";
-                idx.sql = cols.Count >= 2 ? cols[1] : "";
+                idx.Title = cols.Count >= 1 ? cols[0] : "";
+                idx.Sql = cols.Count >= 2 ? cols[1] : "";
 
                 list.Add(idx);
             }
@@ -106,7 +106,7 @@ namespace pkSqlGrepTool.domain.sqlindex
                 optfunc(opt);
             }
 
-            var idx = SqlMacher.General(sqlIndex.sql, search, opt);
+            var idx = SqlMacher.General(sqlIndex.Sql, search, opt);
 
             return idx >= 0;
         }
