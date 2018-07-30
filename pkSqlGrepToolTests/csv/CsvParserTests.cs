@@ -28,8 +28,10 @@ namespace pkSqlGrepTool.csv.Tests
 
             Assert.AreEqual("", test("a,b,c,d", new List<string> { "a", "b", "c", "d" }));
             Assert.AreEqual("", test("a,b\r\nc,d", new List<string> { "a", "b" }));
-            Assert.AreEqual("", test("\"a\r\n\",\"b\"\r\n", new List<string> { "\"a\r\n\"", "\"b\"" }));
-            Assert.AreEqual("", test("\"a\"\",b\"", new List<string> { "\"a\",b\"" }));
+            Assert.AreEqual("", test("\"a\r\n\",\"b\"\r\n", new List<string> { "a\r\n", "b" }));
+            Assert.AreEqual("", test("\"a\"\",b\"", new List<string> { "a\",b" }));
+            Assert.AreEqual("", test("\"a\"\"\"\",b\"", new List<string> { "a\"\",b" }));
+            Assert.AreEqual("", test("\"a\"\"\"\"\"\"\"\"\",b", new List<string> { "a\"\"\"\"", "b" }));
         }
     }
 }
