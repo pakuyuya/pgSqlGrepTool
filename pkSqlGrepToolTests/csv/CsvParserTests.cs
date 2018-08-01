@@ -32,6 +32,7 @@ namespace pkSqlGrepTool.csv.Tests
             Assert.AreEqual("", test("\"a\"\",b\"", new List<string> { "a\",b" }));
             Assert.AreEqual("", test("\"a\"\"\"\",b\"", new List<string> { "a\"\",b" }));
             Assert.AreEqual("", test("\"a\"\"\"\"\"\"\"\"\",b", new List<string> { "a\"\"\"\"", "b" }));
+            Assert.AreEqual("", test("\"a\"\"aaa\n\"\"\n\na\",b", new List<string> { "a\"aaa\n\"\n\na", "b" }));
         }
     }
 }

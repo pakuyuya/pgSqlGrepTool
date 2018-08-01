@@ -40,8 +40,10 @@ namespace pkSqlGrepTool.csv.Tests
             test("\"a\",\"b\"", 1, "\"a\",\"b\"");
             test("\"a\r\n\",\"b\"", 1, "\"a\r\n\",\"b\"");
             test("\"a\r\n\",\"b\"\r\n", 1, "\"a\r\n\",\"b\"");
-            test("\"a\r\n\",\"b\"\r\n", 2, "");
-            test("\"a\"\"b\"", 1, "\"a\"b\"");
+            test("\"a\r\n\",\"b\"\r\n", 2, null);
+            test("\"a\"\"b\"", 1, "\"a\"\"b\"");
+            test("\"a\"\"\r\nb\"", 1, "\"a\"\"\r\nb\"");
+            test("\"a\"\"aa\"\"\r\nb\"", 1, "\"a\"\"aa\"\"\r\nb\"");
         }
     }
 }
