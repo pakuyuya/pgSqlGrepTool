@@ -41,7 +41,7 @@ namespace pkSqlGrepTool
             taskRefleshIndex =
                 SqlFileFacade.RequestRefleshRepos()
                 .ContinueWith((t) => {
-                    drawEndLoadIndex();
+                    this.Invoke(new Action(drawEndLoadIndex));
                     taskRefleshIndex = null;
                 })
                 .ContinueWith((t) => { requestSearch(); });
@@ -81,16 +81,17 @@ namespace pkSqlGrepTool
 
         private void drawEnterLoadIndex()
         {
-            
+            toolStripStatusLabel1.Text = "ロード中...";
+            btSearch.Enabled = false;
         }
         private void drawEndLoadIndex()
         {
-
+            toolStripStatusLabel1.Text = "";
+            btSearch.Enabled = true;
         }
 
         private void drawEnterSearch()
         {
-
         }
 
         private void drawEndSearch()

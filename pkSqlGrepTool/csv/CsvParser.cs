@@ -92,7 +92,6 @@ namespace pkSqlGrepTool.csv
             {
                 bool crtIsQuoteEnd = false;
                 var c = reader.Read();
-                char cc = (char)c;
 
                 if (c == -1)
                 {
