@@ -49,6 +49,10 @@ namespace pkSqlGrepTool
 
         private void requestSearch()
         {
+            if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
+            {
+                return;
+            }
             if (taskSearch != null && !taskSearch.IsCompleted)
             {
                 return;
@@ -162,6 +166,14 @@ namespace pkSqlGrepTool
                 {
                     lbList.SetSelected(i, true);
                 }
+            }
+        }
+
+        private void txSearchToken_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                requestSearch();
             }
         }
     }

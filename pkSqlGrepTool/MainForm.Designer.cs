@@ -145,6 +145,7 @@
             this.txSearchToken.Name = "txSearchToken";
             this.txSearchToken.Size = new System.Drawing.Size(156, 19);
             this.txSearchToken.TabIndex = 0;
+            this.txSearchToken.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txSearchToken_KeyDown);
             // 
             // lbList
             // 
