@@ -106,7 +106,7 @@ namespace pkSqlGrepTool.csv
                     crtIsQuoteEnd = true;
                     quote = -1;
                 }
-                else if (isQuote(c))
+                else if (!isQuote(quote) && isQuote(c))
                 {
                     quote = c;
                     if (prevIsQuoteEnd && prevc == c)

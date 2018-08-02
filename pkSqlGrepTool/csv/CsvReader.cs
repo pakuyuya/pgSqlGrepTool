@@ -103,7 +103,7 @@ namespace pkSqlGrepTool.csv
                     quote = -1;
                     sb.Append((char)c);
                 }
-                else if (isQuote(c))
+                else if (!isQuote(quote) && isQuote(c))
                 {
                     quote = c;
                     sb.Append((char)c);
