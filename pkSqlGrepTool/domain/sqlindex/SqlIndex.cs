@@ -103,7 +103,7 @@ namespace pkSqlGrepTool.domain.sqlindex
 
             foreach (var optfunc in opts)
             {
-                optfunc(opt);
+                opt = optfunc(opt);
             }
 
             var idx = SqlMacher.General(sqlIndex.Sql, search, opt);

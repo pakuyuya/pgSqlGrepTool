@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using pkSqlGrepTool.domain.sqlindex;
 using pkSqlGrepTool.appcore;
 using pkSqlGrepTool.ui;
+using System.Text.RegularExpressions;
+using pkSqlGrepTool.Properties;
 
 namespace pkSqlGrepTool
 {
@@ -28,7 +30,26 @@ namespace pkSqlGrepTool
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
+        // validation
+
+        private string validateSearch()
+        {
+            if (cbCondRegex.Checked)
+            {
+                try
+                {
+                    new Regex(txSearchToken.Text);
+                }
+                catch (ArgumentException ex)
+                {
+                    return "正規表現の構文が不正です。";
+                }
+            }
+            return "";
+        }
+
         // inner action
+
         private void requestLoadIndex()
         {
             if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
@@ -49,6 +70,13 @@ namespace pkSqlGrepTool
 
         private void requestSearch()
         {
+            var err = validateSearch();
+            drawError(err);
+            if (err != "")
+            {
+                return;
+            }
+            
             if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
             {
                 return;
@@ -78,19 +106,19 @@ namespace pkSqlGrepTool
 
         // draw
 
-        private void drawStatusBar()
+        private void drawStatusBar(string text)
         {
-
+            toolStripStatusLabel1.Text = text;
         }
 
         private void drawEnterLoadIndex()
         {
-            toolStripStatusLabel1.Text = "ロード中...";
+            drawStatusBar("ロード中...");
             btSearch.Enabled = false;
         }
         private void drawEndLoadIndex()
         {
-            toolStripStatusLabel1.Text = "";
+            drawStatusBar("");
             btSearch.Enabled = true;
         }
 
@@ -114,9 +142,14 @@ namespace pkSqlGrepTool
                                         + idx.Sql + "\r\n";
                             });
 
-            var content = string.Join("\r\n\r\n", sqlTexts);
+            var content = string.Join("\r\n" + Settings.Default.ContentView_Separator + "\r\n", sqlTexts);
 
             txContent.Text = content;
+        }
+
+        private void drawError(string error)
+        {
+            drawStatusBar(error);
         }
 
         // event

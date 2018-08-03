@@ -49,5 +49,14 @@ namespace pkSqlGrepTool.Properties {
                 return ((bool)(this["SqlFile_ReadSubDir"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("--------------------------------------------")]
+        public string ContentView_Separator {
+            get {
+                return ((string)(this["ContentView_Separator"]));
+            }
+        }
     }
 }
