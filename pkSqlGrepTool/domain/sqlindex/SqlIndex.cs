@@ -127,5 +127,13 @@ namespace pkSqlGrepTool.domain.sqlindex
                 return opt;
             };
         }
+        public static Func<searchOpt, searchOpt> withIgnoreCase(bool flg)
+        {
+            return (opt) =>
+            {
+                opt.ignoreCase = flg;
+                return opt;
+            };
+        }
     }
 }

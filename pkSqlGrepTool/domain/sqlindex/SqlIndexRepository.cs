@@ -41,6 +41,7 @@ namespace pkSqlGrepTool.domain.sqlindex
     {
         public bool regex;
         public bool word;
+        public bool ignoreCase;
     }
 
     public static class SqlMacher
@@ -48,6 +49,7 @@ namespace pkSqlGrepTool.domain.sqlindex
         public static int General(string body, string search, searchOpt opt)
         {
             var wk_pattern = search;
+            var regopt = RegexOptions.None;
 
             if (!opt.regex)
             {
@@ -56,10 +58,15 @@ namespace pkSqlGrepTool.domain.sqlindex
 
             if (opt.word)
             {
-                wk_pattern = "(^|\\s)(" + wk_pattern + ")($|\\s)";
+                wk_pattern = "(^|\\W)(" + wk_pattern + ")($|\\W)";
             }
 
-            var reg = new Regex(wk_pattern);
+            if (opt.ignoreCase)
+            {
+                regopt |= RegexOptions.IgnoreCase;
+            }
+
+            var reg = new Regex(wk_pattern, regopt);
 
             var match = reg.Match(body);
             return match.Success ? match.Index : -1;

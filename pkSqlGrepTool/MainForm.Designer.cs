@@ -43,6 +43,7 @@
             this.リロードToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbEnableCase = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -72,7 +73,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(881, 463);
+            this.splitContainer1.Size = new System.Drawing.Size(892, 439);
             this.splitContainer1.SplitterDistance = 183;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -86,6 +87,7 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.cbEnableCase);
             this.splitContainer3.Panel1.Controls.Add(this.btSearch);
             this.splitContainer3.Panel1.Controls.Add(this.lable1);
             this.splitContainer3.Panel1.Controls.Add(this.cbCondRegex);
@@ -95,8 +97,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.lbList);
-            this.splitContainer3.Size = new System.Drawing.Size(183, 463);
-            this.splitContainer3.SplitterDistance = 108;
+            this.splitContainer3.Size = new System.Drawing.Size(183, 439);
+            this.splitContainer3.SplitterDistance = 133;
             this.splitContainer3.TabIndex = 0;
             // 
             // btSearch
@@ -131,7 +133,6 @@
             // cbCondWord
             // 
             this.cbCondWord.AutoSize = true;
-            this.cbCondWord.Enabled = false;
             this.cbCondWord.Location = new System.Drawing.Point(12, 85);
             this.cbCondWord.Name = "cbCondWord";
             this.cbCondWord.Size = new System.Drawing.Size(69, 16);
@@ -157,7 +158,7 @@
             this.lbList.Name = "lbList";
             this.lbList.ScrollAlwaysVisible = true;
             this.lbList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbList.Size = new System.Drawing.Size(183, 351);
+            this.lbList.Size = new System.Drawing.Size(183, 302);
             this.lbList.TabIndex = 0;
             this.lbList.TabStop = false;
             this.lbList.SelectedIndexChanged += new System.EventHandler(this.lbList_SelectedIndexChanged);
@@ -174,7 +175,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.txContent);
-            this.splitContainer2.Size = new System.Drawing.Size(694, 463);
+            this.splitContainer2.Size = new System.Drawing.Size(705, 439);
             this.splitContainer2.SplitterDistance = 25;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -185,8 +186,8 @@
             this.txContent.Location = new System.Drawing.Point(0, 0);
             this.txContent.Multiline = true;
             this.txContent.Name = "txContent";
-            this.txContent.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.txContent.Size = new System.Drawing.Size(694, 434);
+            this.txContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txContent.Size = new System.Drawing.Size(705, 410);
             this.txContent.TabIndex = 0;
             this.txContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txContent_KeyDown);
             // 
@@ -197,7 +198,7 @@
             this.リロードToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(881, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(892, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -219,9 +220,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 465);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 463);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(881, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(892, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -231,13 +232,23 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // cbEnableCase
+            // 
+            this.cbEnableCase.AutoSize = true;
+            this.cbEnableCase.Location = new System.Drawing.Point(12, 107);
+            this.cbEnableCase.Name = "cbEnableCase";
+            this.cbEnableCase.Size = new System.Drawing.Size(129, 16);
+            this.cbEnableCase.TabIndex = 5;
+            this.cbEnableCase.Text = "大文字小文字を区別";
+            this.cbEnableCase.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 487);
-            this.Controls.Add(this.statusStrip1);
+            this.ClientSize = new System.Drawing.Size(892, 485);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "MainForm";
             this.Text = "SQL抽出閲覧君";
@@ -281,6 +292,7 @@
         private System.Windows.Forms.ToolStripMenuItem リロードToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.CheckBox cbEnableCase;
     }
 }
 

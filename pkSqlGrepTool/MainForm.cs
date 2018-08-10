@@ -94,8 +94,12 @@ namespace pkSqlGrepTool
             var searchToken = txSearchToken.Text;
             var regex = cbCondRegex.Checked;
             var word = cbCondWord.Checked;
+            var ignoreCase = !cbEnableCase.Checked;
 
-            taskSearch = SqlFileFacade.RequestSearch(searchToken, SqlMatch.withRegex(regex), SqlMatch.withWord(word))
+            taskSearch = SqlFileFacade.RequestSearch(searchToken,
+                            SqlMatch.withRegex(regex),
+                            SqlMatch.withWord(word),
+                            SqlMatch.withIgnoreCase(ignoreCase))
                 .ContinueWith((t) => {
                     listSqls.Clear();
                     listSqls.AddRange(t.Result);
@@ -160,7 +164,6 @@ namespace pkSqlGrepTool
         }
         private void btSearch_Click(object sender, EventArgs e)
         {
-            // TODO: 検索をリクエストする
             requestSearch();
         }
 
