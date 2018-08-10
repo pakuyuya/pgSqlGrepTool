@@ -25,7 +25,8 @@ namespace pkSqlGrepTool
 
 
         // inner component
-        CancellationToken ct;
+
+        CancellationTokenSource ts = null;
         Task currentTask = null;
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
@@ -113,6 +114,32 @@ namespace pkSqlGrepTool
             .ContinueWith((t) => {
                 releaseTask();
             });
+        }
+
+        private void findContent()
+        {
+            var find = txFind.Text.ToLower();
+            if (find == "")
+            {
+                return;
+            }
+            var cont = txContent.Text.ToLower();
+            int startIdx = Math.Min((txContent.SelectionStart) + 1, cont.Length-1);
+
+            int resultIdx = cont.IndexOf(find, startIdx);
+            if (resultIdx < 0)
+            {
+                resultIdx = cont.IndexOf(find);
+            }
+
+            if (resultIdx < 0)
+            {
+                return;
+            }
+
+            txContent.Focus();
+            txContent.Select(resultIdx, find.Length);
+            txContent.ScrollToCaret();
         }
 
         // draw
@@ -255,14 +282,29 @@ namespace pkSqlGrepTool
             {
                 return;
             }
+
+            ts.Cancel(true);
         }
 
         private Task assignTask(Action action)
         {
-            var ts = new CancellationTokenSource();
-            ct = ts.Token;
+            ts = new CancellationTokenSource();
+            var ct = ts.Token;
 
             return Task.Factory.StartNew(action, ct);
+        }
+
+        private void btFind_Click(object sender, EventArgs e)
+        {
+            findContent();
+        }
+
+        private void txFind_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                findContent();
+            }
         }
     }
 }
