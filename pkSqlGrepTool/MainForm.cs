@@ -12,6 +12,7 @@ using pkSqlGrepTool.appcore;
 using pkSqlGrepTool.ui;
 using System.Text.RegularExpressions;
 using pkSqlGrepTool.Properties;
+using System.Threading;
 
 namespace pkSqlGrepTool
 {
@@ -24,9 +25,8 @@ namespace pkSqlGrepTool
 
 
         // inner component
-        
-        Task taskRefleshIndex = null;
-        Task taskSearch = null;
+        CancellationToken ct;
+        Task currentTask = null;
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
@@ -52,18 +52,23 @@ namespace pkSqlGrepTool
 
         private void requestLoadIndex()
         {
-            if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
+            if (currentTask != null && !currentTask.IsCompleted)
             {
                 return;
             }
 
             drawEnterLoadIndex();
 
-            taskRefleshIndex =
-                SqlFileFacade.RequestRefleshRepos()
-                .ContinueWith((t) => {
+            currentTask =
+                assignTask(() =>
+                {
+                    var subTask = SqlFileFacade.RequestRefleshRepos();
+                    Task.WhenAll(subTask);
+                })
+                .ContinueWith((t) =>
+                {
                     this.Invoke(new Action(drawEndLoadIndex));
-                    taskRefleshIndex = null;
+                    currentTask = null;
                 })
                 .ContinueWith((t) => { requestSearch(); });
         }
@@ -77,17 +82,9 @@ namespace pkSqlGrepTool
                 return;
             }
             
-            if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
+            if (currentTask != null && !currentTask.IsCompleted)
             {
                 return;
-            }
-            if (taskSearch != null && !taskSearch.IsCompleted)
-            {
-                return;
-            }
-            if (taskRefleshIndex != null && !taskRefleshIndex.IsCompleted)
-            {
-                taskRefleshIndex.Wait();
             }
             drawEnterSearch();
 
@@ -96,19 +93,46 @@ namespace pkSqlGrepTool
             var word = cbCondWord.Checked;
             var ignoreCase = !cbEnableCase.Checked;
 
-            taskSearch = SqlFileFacade.RequestSearch(searchToken,
-                            SqlMatch.withRegex(regex),
-                            SqlMatch.withWord(word),
-                            SqlMatch.withIgnoreCase(ignoreCase))
-                .ContinueWith((t) => {
-                    listSqls.Clear();
-                    listSqls.AddRange(t.Result);
-                    this.Invoke(new Action(drawEndSearch));
-                    taskSearch = null;
-                });
+            enterTask("検索中");
+
+            assignTask(() =>
+            {
+                var subTask = SqlFileFacade.RequestSearch(searchToken,
+                                SqlMatch.withRegex(regex),
+                                SqlMatch.withWord(word),
+                                SqlMatch.withIgnoreCase(ignoreCase))
+                                .ContinueWith((t) =>
+                                {
+                                    listSqls.Clear();
+                                    listSqls.AddRange(t.Result);
+                                    this.Invoke(new Action(drawEndSearch));
+                                    currentTask = null;
+                                });
+                Task.WaitAll(subTask);
+            })
+            .ContinueWith((t) => {
+                releaseTask();
+            });
         }
 
         // draw
+
+        private void enterTask(string message)
+        {
+            this.Invoke(new Action(() =>
+            {
+                btCancel.Enabled = true;
+                lbStatus.Text = message;
+            }));
+        }
+        private void releaseTask()
+        {
+            this.Invoke(new Action(() =>
+            {
+                btCancel.Enabled = false;
+                lbStatus.Text = "";
+            }));
+        }
 
         private void drawStatusBar(string text)
         {
@@ -138,17 +162,29 @@ namespace pkSqlGrepTool
 
         private void drawSqlContext()
         {
-            var sqlTexts = lbList.SelectedItems.OfType<SqlIndex>()
-                            .Select( (idx) =>
-                            {
-                                return "-- "
-                                        + idx.Title + "\r\n"
-                                        + idx.Sql + "\r\n";
-                            });
+            enterTask("ファイル内容描画中...");
 
-            var content = string.Join("\r\n" + Settings.Default.ContentView_Separator + "\r\n", sqlTexts);
+            var items = new List<SqlIndex>(lbList.SelectedItems.OfType<SqlIndex>());
+            var result = "";
 
-            txContent.Text = content;
+            assignTask(() =>
+            {
+                var sqlTexts = items.Select((idx) =>
+                                {
+                                    return "-- "
+                                            + idx.Title + "\r\n"
+                                            + idx.Sql + "\r\n";
+                                });
+
+                result = string.Join("\r\n" + Settings.Default.ContentView_Separator + "\r\n", sqlTexts);
+            })
+            .ContinueWith((t) => {
+                this.Invoke(new Action(() =>
+                {
+                    txContent.Text = result;
+                }));
+            })
+            .ContinueWith((t) => { releaseTask(); });
         }
 
         private void drawError(string error)
@@ -211,6 +247,22 @@ namespace pkSqlGrepTool
             {
                 requestSearch();
             }
+        }
+
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            if (currentTask == null || currentTask.IsCompleted)
+            {
+                return;
+            }
+        }
+
+        private Task assignTask(Action action)
+        {
+            var ts = new CancellationTokenSource();
+            ct = ts.Token;
+
+            return Task.Factory.StartNew(action, ct);
         }
     }
 }

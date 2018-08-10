@@ -44,6 +44,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.cbEnableCase = new System.Windows.Forms.CheckBox();
+            this.btCancel = new System.Windows.Forms.Button();
+            this.lbStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -53,6 +55,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -172,11 +175,16 @@
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.lbStatus);
+            this.splitContainer2.Panel1.Controls.Add(this.btCancel);
+            // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.txContent);
             this.splitContainer2.Size = new System.Drawing.Size(705, 439);
-            this.splitContainer2.SplitterDistance = 25;
+            this.splitContainer2.SplitterDistance = 28;
             this.splitContainer2.TabIndex = 0;
             // 
             // txContent
@@ -187,7 +195,7 @@
             this.txContent.Multiline = true;
             this.txContent.Name = "txContent";
             this.txContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txContent.Size = new System.Drawing.Size(705, 410);
+            this.txContent.Size = new System.Drawing.Size(705, 407);
             this.txContent.TabIndex = 0;
             this.txContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txContent_KeyDown);
             // 
@@ -242,6 +250,26 @@
             this.cbEnableCase.Text = "大文字小文字を区別";
             this.cbEnableCase.UseVisualStyleBackColor = true;
             // 
+            // btCancel
+            // 
+            this.btCancel.Enabled = false;
+            this.btCancel.Location = new System.Drawing.Point(3, 3);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(75, 23);
+            this.btCancel.TabIndex = 0;
+            this.btCancel.Text = "キャンセル";
+            this.btCancel.UseVisualStyleBackColor = true;
+            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
+            // 
+            // lbStatus
+            // 
+            this.lbStatus.AutoSize = true;
+            this.lbStatus.Location = new System.Drawing.Point(84, 8);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(35, 12);
+            this.lbStatus.TabIndex = 1;
+            this.lbStatus.Text = "label1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -262,6 +290,8 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -293,6 +323,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.CheckBox cbEnableCase;
+        private System.Windows.Forms.Label lbStatus;
+        private System.Windows.Forms.Button btCancel;
     }
 }
 
