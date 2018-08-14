@@ -166,22 +166,16 @@ namespace pkSqlGrepTool
             });
         }
 
-        private void requestCopyListSelection(List<int> indices, List<SqlIndex> sqlIndices)
+        private void requestSelectList(List<int> indices)
         {
-            if (lbList.SelectedIndices.Count > 0)
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                lbList.ClearSelected();
+                foreach (var i in indices)
                 {
-                    var titles = sqlIndices.Select((sqlIdx) => sqlIdx.Title);
-                    Clipboard.SetText(string.Join("\r\n", titles));
-
-                    lbList.ClearSelected();
-                    foreach (var i in indices)
-                    {
-                        lbList.SetSelected(i, true);
-                    }
-                });
-            }
+                    //lbList.SetSelected(i, true);
+                }
+            });
         }
 
         // draw
@@ -308,9 +302,15 @@ namespace pkSqlGrepTool
 
             if (e.Control && e.KeyCode == Keys.C)
             {
-                var indices = lbList.SelectedIndices.OfType<int>().ToList();
-                var sqlIndices = lbList.SelectedItems.OfType<SqlIndex>().ToList();
-                requestCopyListSelection(indices, sqlIndices);
+                if (lbList.SelectedIndices.Count > 0)
+                {
+                    var titles = lbList.SelectedItems.OfType<SqlIndex>().Select((sqlIdx) => sqlIdx.Title);
+                    Clipboard.SetText(string.Join("\r\n", titles));
+
+                    e.Handled = true;
+                    var indices = lbList.SelectedIndices.OfType<int>().ToList();
+                    requestSelectList(indices);
+                }
             }
         }
 
