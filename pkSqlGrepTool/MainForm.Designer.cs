@@ -47,6 +47,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.検索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rtContent = new System.Windows.Forms.RichTextBox();
+            this.本文検索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -262,19 +263,28 @@
             // 
             // 検索ToolStripMenuItem
             // 
+            this.検索ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.本文検索ToolStripMenuItem});
             this.検索ToolStripMenuItem.Name = "検索ToolStripMenuItem";
             this.検索ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.検索ToolStripMenuItem.Text = "検索";
-            this.検索ToolStripMenuItem.Click += new System.EventHandler(this.検索ToolStripMenuItem_Click);
+            this.検索ToolStripMenuItem.Text = "表示";
             // 
             // rtContent
             // 
             this.rtContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtContent.HideSelection = false;
             this.rtContent.Location = new System.Drawing.Point(0, 0);
             this.rtContent.Name = "rtContent";
             this.rtContent.Size = new System.Drawing.Size(705, 394);
             this.rtContent.TabIndex = 0;
             this.rtContent.Text = "";
+            // 
+            // 本文検索ToolStripMenuItem
+            // 
+            this.本文検索ToolStripMenuItem.Name = "本文検索ToolStripMenuItem";
+            this.本文検索ToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.本文検索ToolStripMenuItem.Text = "本文検索ウィンドウ";
+            this.本文検索ToolStripMenuItem.Click += new System.EventHandler(this.本文検索ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -286,6 +296,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "MainForm";
             this.Text = "SQL抽出閲覧君";
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
+            this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -331,6 +343,7 @@
         private System.Windows.Forms.Button btCancel;
         private System.Windows.Forms.ToolStripMenuItem 検索ToolStripMenuItem;
         private System.Windows.Forms.RichTextBox rtContent;
+        private System.Windows.Forms.ToolStripMenuItem 本文検索ToolStripMenuItem;
     }
 }
 

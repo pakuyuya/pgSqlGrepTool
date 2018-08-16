@@ -60,6 +60,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SearchDialog";
             this.Text = "検索";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

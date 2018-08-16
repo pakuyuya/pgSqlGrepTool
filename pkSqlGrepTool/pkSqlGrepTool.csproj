@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="appcore\Hotkey.cs" />
     <Compile Include="appcore\SqlFileFacade.cs" />
     <Compile Include="csv\CsvParser.cs" />
     <Compile Include="csv\CsvReader.cs" />

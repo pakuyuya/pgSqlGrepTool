@@ -26,14 +26,47 @@ namespace pkSqlGrepTool
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
+        private HotKey hotkeySearch;
         private SearchDialog searchDlg = new SearchDialog();
 
-        // constructor
+        public string HilightWord { get; set; } = "";
+
+        // constructor / initialization
 
         public MainForm()
         {
             InitializeComponent();
             searchDlg.SearchCallback = generateOnFind();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            hotkeySearch = new HotKey(this.Handle, 0, Keys.Control | Keys.F);
+
+            requestLoadIndex();
+        }
+
+        // close / destructor
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            hotkeySearch.Unregister();
+        }
+
+        // WndProc
+
+        // ホットキーの入力メッセージを処理する
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_HOTKEY = 0x312;
+
+            if (m.Msg == WM_HOTKEY && m.LParam == hotkeySearch.LParam)
+            {
+                toggleSearchWindow();
+            }
+            else
+            {
+                base.WndProc(ref m);
+            }
         }
 
         // common methods
@@ -83,6 +116,7 @@ namespace pkSqlGrepTool
                 })
                 .ContinueWith((t) =>
                 {
+                    Task.Delay(50).Wait();
                     this.Invoke(new Action(drawEndLoadIndex));
                     currentTask = null;
                 })
@@ -156,13 +190,40 @@ namespace pkSqlGrepTool
             {
                 return;
             }
-            
-            rtContent.Focus();
-            rtContent.SelectAll();
-            rtContent.SelectionBackColor = Color.Empty;
+
             rtContent.Select(resultIdx, find.Length);
             rtContent.ScrollToCaret();
-            rtContent.SelectionBackColor = Color.Yellow;
+
+            if (HilightWord != find)
+            {
+                HilightWord = find;
+                clearHilight();
+                setHilight(find);
+            }
+        }
+
+        private void clearHilight()
+        {
+            var s = rtContent.SelectionStart;
+            var l = rtContent.SelectionLength;
+            rtContent.SelectAll();
+            rtContent.SelectionBackColor = rtContent.BackColor;
+            rtContent.Select(s, l);
+        }
+        private void setHilight(string word)
+        {
+            var s = rtContent.SelectionStart;
+            var l = rtContent.SelectionLength;
+
+            int i = 0;
+            rtContent.DeselectAll();
+            while((i = rtContent.Find(word, i, RichTextBoxFinds.None)) >= 0)
+            {
+                rtContent.Select(i, word.Length);
+                rtContent.SelectionBackColor = Color.Yellow;
+                i++;
+            }
+            rtContent.Select(s, l);
         }
 
         private void requestSelectAllofList()
@@ -295,10 +356,6 @@ namespace pkSqlGrepTool
                 };
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            requestLoadIndex();
-        }
         private void btSearch_Click(object sender, EventArgs e)
         {
             requestSearch();
@@ -370,7 +427,17 @@ namespace pkSqlGrepTool
             ts.Cancel(true);
         }
 
-        private void 検索ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            searchDlg.TopMost = true;
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            searchDlg.TopMost = false;
+        }
+
+        private void 本文検索ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toggleSearchWindow();
         }
