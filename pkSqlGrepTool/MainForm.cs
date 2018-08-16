@@ -18,11 +18,6 @@ namespace pkSqlGrepTool
 {
     public partial class MainForm : Form
     {
-        public MainForm()
-        {
-            InitializeComponent();
-        }
-
 
         // inner component
 
@@ -30,6 +25,16 @@ namespace pkSqlGrepTool
         Task currentTask = null;
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
+
+        private SearchDialog searchDlg = new SearchDialog();
+
+        // constructor
+
+        public MainForm()
+        {
+            InitializeComponent();
+            searchDlg.SearchCallback = generateOnFind();
+        }
 
         // common methods
 
@@ -126,15 +131,20 @@ namespace pkSqlGrepTool
             });
         }
 
-        private void findContent()
+        private void findContent(string find)
         {
-            var find = txFind.Text.ToLower();
+            //rtContent.SelectionBackColor = Color.Empty;
             if (find == "")
             {
                 return;
             }
-            var cont = txContent.Text.ToLower();
-            int startIdx = Math.Min((txContent.SelectionStart) + 1, cont.Length-1);
+            var cont = rtContent.Text.ToLower();
+            int startIdx = Math.Min((rtContent.SelectionStart) + 1, cont.Length-1);
+
+            if (startIdx < 0)
+            {
+                return;
+            }
 
             int resultIdx = cont.IndexOf(find, startIdx);
             if (resultIdx < 0)
@@ -146,10 +156,13 @@ namespace pkSqlGrepTool
             {
                 return;
             }
-
-            txContent.Focus();
-            txContent.Select(resultIdx, find.Length);
-            txContent.ScrollToCaret();
+            
+            rtContent.Focus();
+            rtContent.SelectAll();
+            rtContent.SelectionBackColor = Color.Empty;
+            rtContent.Select(resultIdx, find.Length);
+            rtContent.ScrollToCaret();
+            rtContent.SelectionBackColor = Color.Yellow;
         }
 
         private void requestSelectAllofList()
@@ -176,6 +189,18 @@ namespace pkSqlGrepTool
                     //lbList.SetSelected(i, true);
                 }
             });
+        }
+
+        private void toggleSearchWindow()
+        {
+            if (searchDlg.Visible)
+            {
+                searchDlg.Hide();
+            }
+            else
+            {
+                searchDlg.Show();
+            }
         }
 
         // draw
@@ -244,7 +269,7 @@ namespace pkSqlGrepTool
             .ContinueWith((t) => {
                 this.Invoke(new Action(() =>
                 {
-                    txContent.Text = result;
+                    rtContent.Text = result;
                 }));
             })
             .ContinueWith((t) => { releaseTask(); });
@@ -256,6 +281,19 @@ namespace pkSqlGrepTool
         }
 
         // event
+
+        private Func<string, Task> generateOnFind()
+        {
+            return (string word) =>
+                {
+                    return Task.Run(() => {
+                        this.Invoke(new Action(() =>
+                        {
+                            findContent(word);
+                        }));
+                    });
+                };
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -290,7 +328,7 @@ namespace pkSqlGrepTool
         private void txContent_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.A)
-                txContent.SelectAll();
+                rtContent.SelectAll();
         }
 
         private void lbList_KeyDown(object sender, KeyEventArgs e)
@@ -332,18 +370,9 @@ namespace pkSqlGrepTool
             ts.Cancel(true);
         }
 
-
-        private void btFind_Click(object sender, EventArgs e)
+        private void 検索ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            findContent();
-        }
-
-        private void txFind_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                findContent();
-            }
+            toggleSearchWindow();
         }
     }
 }
