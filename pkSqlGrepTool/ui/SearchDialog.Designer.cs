@@ -61,6 +61,7 @@
             this.Name = "SearchDialog";
             this.Text = "検索";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SearchDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

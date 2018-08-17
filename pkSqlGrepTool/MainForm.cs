@@ -26,8 +26,7 @@ namespace pkSqlGrepTool
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
-        private HotKey hotkeySearch;
-        private SearchDialog searchDlg = new SearchDialog();
+        HotKey hotkeySearch = null;
 
         public string HilightWord { get; set; } = "";
 
@@ -36,23 +35,22 @@ namespace pkSqlGrepTool
         public MainForm()
         {
             InitializeComponent();
-            searchDlg.SearchCallback = generateOnFind();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            hotkeySearch = new HotKey(this.Handle, 0, Keys.Control | Keys.F);
-
             requestLoadIndex();
+            hotkeySearch = new HotKey(this.Handle, 0, Keys.Control | Keys.F);
         }
-
-        // close / destructor
-
-        protected override void OnClosing(CancelEventArgs e)
+    
+        ~MainForm()
         {
-            hotkeySearch.Unregister();
+            if (hotkeySearch != null)
+            {
+                hotkeySearch.Unregister();
+                hotkeySearch = null;
+            }
         }
 
-        // WndProc
 
         // ホットキーの入力メッセージを処理する
         protected override void WndProc(ref Message m)
@@ -61,14 +59,14 @@ namespace pkSqlGrepTool
 
             if (m.Msg == WM_HOTKEY && m.LParam == hotkeySearch.LParam)
             {
-                toggleSearchWindow();
+                // フォームをアクティブにする
+                txFind.Focus();
             }
             else
             {
                 base.WndProc(ref m);
             }
         }
-
         // common methods
 
         private Task assignTask(Action action)
@@ -252,18 +250,6 @@ namespace pkSqlGrepTool
             });
         }
 
-        private void toggleSearchWindow()
-        {
-            if (searchDlg.Visible)
-            {
-                searchDlg.Hide();
-            }
-            else
-            {
-                searchDlg.Show();
-            }
-        }
-
         // draw
 
         private void enterTask(string message)
@@ -427,19 +413,17 @@ namespace pkSqlGrepTool
             ts.Cancel(true);
         }
 
-        private void MainForm_Activated(object sender, EventArgs e)
+        private void btFind_Click(object sender, EventArgs e)
         {
-            searchDlg.TopMost = true;
+            findContent(txFind.Text);
         }
 
-        private void MainForm_Deactivate(object sender, EventArgs e)
+        private void txFind_KeyDown(object sender, KeyEventArgs e)
         {
-            searchDlg.TopMost = false;
-        }
-
-        private void 本文検索ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toggleSearchWindow();
+            if (e.KeyCode == Keys.Enter)
+            {
+                findContent(txFind.Text);
+            }
         }
     }
 }

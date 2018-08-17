@@ -45,5 +45,11 @@ namespace pkSqlGrepTool.ui
                 doCallback();
             }
         }
+
+        private void SearchDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
     }
 }
