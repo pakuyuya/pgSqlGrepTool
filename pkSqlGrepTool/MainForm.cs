@@ -317,6 +317,7 @@ namespace pkSqlGrepTool
                 this.Invoke(new Action(() =>
                 {
                     rtContent.Text = result;
+                    HilightWord = "";
                 }));
             })
             .ContinueWith((t) => { releaseTask(); });
