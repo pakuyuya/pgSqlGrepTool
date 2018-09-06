@@ -26,8 +26,6 @@ namespace pkSqlGrepTool
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
-        HotKey hotkeySearch = null;
-
         public string HilightWord { get; set; } = "";
 
         // constructor / initialization
@@ -39,34 +37,12 @@ namespace pkSqlGrepTool
         private void Form1_Load(object sender, EventArgs e)
         {
             requestLoadIndex();
-            hotkeySearch = new HotKey(this.Handle, 0, Keys.Control | Keys.F);
         }
     
         ~MainForm()
         {
-            if (hotkeySearch != null)
-            {
-                hotkeySearch.Unregister();
-                hotkeySearch = null;
-            }
         }
 
-
-        // ホットキーの入力メッセージを処理する
-        protected override void WndProc(ref Message m)
-        {
-            const int WM_HOTKEY = 0x312;
-
-            if (m.Msg == WM_HOTKEY && m.LParam == hotkeySearch.LParam)
-            {
-                // フォームをアクティブにする
-                txFind.Focus();
-            }
-            else
-            {
-                base.WndProc(ref m);
-            }
-        }
         // common methods
 
         private Task assignTask(Action action)
