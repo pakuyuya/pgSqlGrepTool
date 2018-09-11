@@ -38,17 +38,19 @@
             this.txSearchToken = new System.Windows.Forms.TextBox();
             this.lbList = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.btFind = new System.Windows.Forms.Button();
-            this.txFind = new System.Windows.Forms.TextBox();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.btCancel = new System.Windows.Forms.Button();
             this.lbStatus = new System.Windows.Forms.Label();
+            this.txFind = new System.Windows.Forms.TextBox();
+            this.btFind = new System.Windows.Forms.Button();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.btOpen = new System.Windows.Forms.Button();
             this.rtContent = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.refleshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.リロードToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,12 +63,16 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -198,28 +204,30 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.rtContent);
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer2.Size = new System.Drawing.Size(705, 439);
-            this.splitContainer2.SplitterDistance = 31;
+            this.splitContainer2.SplitterDistance = 33;
             this.splitContainer2.TabIndex = 0;
             // 
-            // btFind
+            // splitContainer4
             // 
-            this.btFind.Location = new System.Drawing.Point(181, 5);
-            this.btFind.Name = "btFind";
-            this.btFind.Size = new System.Drawing.Size(75, 23);
-            this.btFind.TabIndex = 3;
-            this.btFind.Text = "本文検索";
-            this.btFind.UseVisualStyleBackColor = true;
-            this.btFind.Click += new System.EventHandler(this.btFind_Click);
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
             // 
-            // txFind
+            // splitContainer4.Panel1
             // 
-            this.txFind.Location = new System.Drawing.Point(6, 7);
-            this.txFind.Name = "txFind";
-            this.txFind.Size = new System.Drawing.Size(169, 19);
-            this.txFind.TabIndex = 2;
-            this.txFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txFind_KeyDown);
+            this.splitContainer4.Panel1.Controls.Add(this.btCancel);
+            this.splitContainer4.Panel1.Controls.Add(this.lbStatus);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.txFind);
+            this.splitContainer4.Panel2.Controls.Add(this.btFind);
+            this.splitContainer4.Size = new System.Drawing.Size(705, 33);
+            this.splitContainer4.SplitterDistance = 437;
+            this.splitContainer4.TabIndex = 4;
             // 
             // btCancel
             // 
@@ -241,13 +249,62 @@
             this.lbStatus.TabIndex = 1;
             this.lbStatus.Text = "label1";
             // 
+            // txFind
+            // 
+            this.txFind.Location = new System.Drawing.Point(6, 7);
+            this.txFind.Name = "txFind";
+            this.txFind.Size = new System.Drawing.Size(169, 19);
+            this.txFind.TabIndex = 2;
+            this.txFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txFind_KeyDown);
+            // 
+            // btFind
+            // 
+            this.btFind.Location = new System.Drawing.Point(181, 5);
+            this.btFind.Name = "btFind";
+            this.btFind.Size = new System.Drawing.Size(75, 23);
+            this.btFind.TabIndex = 3;
+            this.btFind.Text = "本文検索";
+            this.btFind.UseVisualStyleBackColor = true;
+            this.btFind.Click += new System.EventHandler(this.btFind_Click);
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer5.IsSplitterFixed = true;
+            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.btOpen);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.rtContent);
+            this.splitContainer5.Size = new System.Drawing.Size(705, 402);
+            this.splitContainer5.SplitterDistance = 35;
+            this.splitContainer5.TabIndex = 1;
+            // 
+            // btOpen
+            // 
+            this.btOpen.Location = new System.Drawing.Point(597, 10);
+            this.btOpen.Name = "btOpen";
+            this.btOpen.Size = new System.Drawing.Size(100, 23);
+            this.btOpen.TabIndex = 4;
+            this.btOpen.Text = "プログラムから開く";
+            this.btOpen.UseVisualStyleBackColor = true;
+            this.btOpen.Click += new System.EventHandler(this.btOpen_Click);
+            // 
             // rtContent
             // 
             this.rtContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtContent.HideSelection = false;
             this.rtContent.Location = new System.Drawing.Point(0, 0);
             this.rtContent.Name = "rtContent";
-            this.rtContent.Size = new System.Drawing.Size(705, 404);
+            this.rtContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.rtContent.Size = new System.Drawing.Size(705, 363);
             this.rtContent.TabIndex = 0;
             this.rtContent.Text = "";
             // 
@@ -265,8 +322,8 @@
             // refleshToolStripMenuItem
             // 
             this.refleshToolStripMenuItem.Name = "refleshToolStripMenuItem";
-            this.refleshToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.refleshToolStripMenuItem.Text = "読み込み...";
+            this.refleshToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.refleshToolStripMenuItem.Text = "設定...";
             this.refleshToolStripMenuItem.Click += new System.EventHandler(this.refleshToolStripMenuItem_Click);
             // 
             // リロードToolStripMenuItem
@@ -292,26 +349,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.btCancel);
-            this.splitContainer4.Panel1.Controls.Add(this.lbStatus);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.txFind);
-            this.splitContainer4.Panel2.Controls.Add(this.btFind);
-            this.splitContainer4.Size = new System.Drawing.Size(705, 31);
-            this.splitContainer4.SplitterDistance = 437;
-            this.splitContainer4.TabIndex = 4;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -336,16 +373,20 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel1.PerformLayout();
             this.splitContainer4.Panel2.ResumeLayout(false);
             this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -374,6 +415,8 @@
         private System.Windows.Forms.Button btFind;
         private System.Windows.Forms.TextBox txFind;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button btOpen;
+        private System.Windows.Forms.SplitContainer splitContainer5;
     }
 }
 

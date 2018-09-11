@@ -58,5 +58,41 @@ namespace pkSqlGrepTool.Properties {
                 return ((string)(this["ContentView_Separator"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("notepad.exe")]
+        public string OpenCommand {
+            get {
+                return ((string)(this["OpenCommand"]));
+            }
+            set {
+                this["OpenCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{0}")]
+        public string OpenArguments {
+            get {
+                return ((string)(this["OpenArguments"]));
+            }
+            set {
+                this["OpenArguments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".sql")]
+        public string OpenTempfileExt {
+            get {
+                return ((string)(this["OpenTempfileExt"]));
+            }
+            set {
+                this["OpenTempfileExt"] = value;
+            }
+        }
     }
 }

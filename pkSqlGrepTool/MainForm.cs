@@ -18,7 +18,6 @@ namespace pkSqlGrepTool
 {
     public partial class MainForm : Form
     {
-
         // inner component
 
         CancellationTokenSource ts = null;
@@ -331,7 +330,7 @@ namespace pkSqlGrepTool
 
         private void refleshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dlg = new LoadDialog();
+            var dlg = new SettingDialog();
 
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)
@@ -400,6 +399,18 @@ namespace pkSqlGrepTool
             if (e.KeyCode == Keys.Enter)
             {
                 findContent(txFind.Text);
+            }
+        }
+
+        private void btOpen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExternalProgramFacade.OpenAsTempFile(rtContent.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
