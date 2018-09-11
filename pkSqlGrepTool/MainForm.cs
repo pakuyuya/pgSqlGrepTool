@@ -159,6 +159,7 @@ namespace pkSqlGrepTool
             {
                 resultIdx = cont.IndexOf(find);
             }
+            clearHilight();
 
             if (resultIdx < 0)
             {
@@ -171,7 +172,6 @@ namespace pkSqlGrepTool
             if (HilightWord != find)
             {
                 HilightWord = find;
-                clearHilight();
                 setHilight(find);
             }
         }
@@ -191,7 +191,7 @@ namespace pkSqlGrepTool
 
             int i = 0;
             rtContent.DeselectAll();
-            while((i = rtContent.Find(word, i, RichTextBoxFinds.None)) >= 0)
+            while(i + word.Length <= rtContent.TextLength && (i = rtContent.Find(word, i, RichTextBoxFinds.None)) >= 0)
             {
                 rtContent.Select(i, word.Length);
                 rtContent.SelectionBackColor = Color.Yellow;
