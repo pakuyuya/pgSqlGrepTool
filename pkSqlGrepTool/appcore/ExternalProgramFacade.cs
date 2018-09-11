@@ -29,11 +29,8 @@ namespace pkSqlGrepTool.appcore
                 sw.Flush();
             }
 
-            var cmdall = String.Format(Settings.Default.OpenCommand, tempFilePath);
-
-            var i = cmdall.IndexOf(' ');
-            var cmd = i >= 0 ? cmdall.Substring(0, i) : cmdall;
-            var exts = i >= 0 ? "" : cmdall.Substring(i).Trim();
+            var cmd = Settings.Default.OpenCommand;
+            var exts = String.Format(Settings.Default.OpenArguments, tempFilePath);
 
             try
             {
@@ -41,7 +38,7 @@ namespace pkSqlGrepTool.appcore
             }
             catch (Win32Exception ex)
             {
-                throw new Exception("コマンド '" + cmd + " " + tempFilePath + "' の実行に失敗しました", ex);
+                throw new Exception("コマンド '" + cmd + " " + exts + "' の実行に失敗しました", ex);
             }
         }
     }

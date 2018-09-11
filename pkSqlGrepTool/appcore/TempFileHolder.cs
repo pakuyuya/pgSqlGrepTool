@@ -28,7 +28,8 @@ namespace pkSqlGrepTool.appcore
             // 恐ろしい実装
             while (true)
             {
-                var newp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ext);
+                var filename = "tmp" + Path.GetRandomFileName() + ext;
+                var newp = Path.Combine(Path.GetTempPath(), filename);
 
                 if (!File.Exists(newp))
                 {
