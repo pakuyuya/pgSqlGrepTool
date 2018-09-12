@@ -146,7 +146,7 @@ namespace pkSqlGrepTool
                 return;
             }
             var cont = rtContent.Text.ToLower();
-            int startIdx = Math.Min((rtContent.SelectionStart) + 1, cont.Length-1);
+            int startIdx = Math.Min((rtContent.SelectionStart) + find.Length, cont.Length-1);
 
             if (startIdx < 0)
             {
@@ -158,10 +158,10 @@ namespace pkSqlGrepTool
             {
                 resultIdx = cont.IndexOf(find);
             }
-            clearHilight();
 
             if (resultIdx < 0)
             {
+                clearHilight();
                 return;
             }
 
@@ -170,6 +170,7 @@ namespace pkSqlGrepTool
 
             if (HilightWord != find)
             {
+                clearHilight();
                 HilightWord = find;
                 setHilight(find);
             }
@@ -194,7 +195,7 @@ namespace pkSqlGrepTool
             {
                 rtContent.Select(i, word.Length);
                 rtContent.SelectionBackColor = Color.Yellow;
-                i++;
+                i += word.Length;
             }
             rtContent.Select(s, l);
         }
