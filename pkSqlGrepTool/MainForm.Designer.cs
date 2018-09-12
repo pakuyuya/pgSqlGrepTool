@@ -51,6 +51,7 @@
             this.リロードToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -73,6 +74,9 @@
             this.splitContainer5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
+            this.splitContainer6.Panel2.SuspendLayout();
+            this.splitContainer6.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -270,7 +274,7 @@
             // splitContainer5
             // 
             this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer5.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer5.IsSplitterFixed = true;
             this.splitContainer5.Location = new System.Drawing.Point(0, 0);
             this.splitContainer5.Name = "splitContainer5";
@@ -278,18 +282,18 @@
             // 
             // splitContainer5.Panel1
             // 
-            this.splitContainer5.Panel1.Controls.Add(this.btOpen);
+            this.splitContainer5.Panel1.Controls.Add(this.rtContent);
             // 
             // splitContainer5.Panel2
             // 
-            this.splitContainer5.Panel2.Controls.Add(this.rtContent);
+            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
             this.splitContainer5.Size = new System.Drawing.Size(705, 402);
-            this.splitContainer5.SplitterDistance = 35;
+            this.splitContainer5.SplitterDistance = 368;
             this.splitContainer5.TabIndex = 1;
             // 
             // btOpen
             // 
-            this.btOpen.Location = new System.Drawing.Point(597, 10);
+            this.btOpen.Location = new System.Drawing.Point(3, 3);
             this.btOpen.Name = "btOpen";
             this.btOpen.Size = new System.Drawing.Size(100, 23);
             this.btOpen.TabIndex = 4;
@@ -304,7 +308,7 @@
             this.rtContent.Location = new System.Drawing.Point(0, 0);
             this.rtContent.Name = "rtContent";
             this.rtContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.rtContent.Size = new System.Drawing.Size(705, 363);
+            this.rtContent.Size = new System.Drawing.Size(705, 368);
             this.rtContent.TabIndex = 0;
             this.rtContent.Text = "";
             // 
@@ -349,6 +353,21 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // splitContainer6
+            // 
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer6.IsSplitterFixed = true;
+            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer6.Name = "splitContainer6";
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.btOpen);
+            this.splitContainer6.Size = new System.Drawing.Size(705, 30);
+            this.splitContainer6.SplitterDistance = 590;
+            this.splitContainer6.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -387,6 +406,9 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.splitContainer6.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
+            this.splitContainer6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -417,6 +439,7 @@
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.Button btOpen;
         private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.SplitContainer splitContainer6;
     }
 }
 
