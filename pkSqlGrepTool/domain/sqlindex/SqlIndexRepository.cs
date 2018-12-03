@@ -42,6 +42,7 @@ namespace pkSqlGrepTool.domain.sqlindex
         public bool regex;
         public bool word;
         public bool ignoreCase;
+        public bool includesCaption;
     }
 
     public static class SqlMacher

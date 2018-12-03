@@ -115,6 +115,7 @@ namespace pkSqlGrepTool
             var regex = cbCondRegex.Checked;
             var word = cbCondWord.Checked;
             var ignoreCase = !cbEnableCase.Checked;
+            var includesCaption = !cbOnlyBody.Checked;
 
             enterTask("検索中");
 
@@ -123,7 +124,8 @@ namespace pkSqlGrepTool
                 var subTask = SqlFileFacade.RequestSearch(searchToken,
                                 SqlMatch.withRegex(regex),
                                 SqlMatch.withWord(word),
-                                SqlMatch.withIgnoreCase(ignoreCase))
+                                SqlMatch.withIgnoreCase(ignoreCase),
+                                SqlMatch.withIncludesCaption(includesCaption))
                                 .ContinueWith((t) =>
                                 {
                                     listSqls.Clear();

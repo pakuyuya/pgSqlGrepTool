@@ -98,7 +98,8 @@ namespace pkSqlGrepTool.domain.sqlindex
             var opt = new searchOpt
             {
                 regex = false,
-                word = false
+                word = false,
+                includesCaption = false,
             };
 
             foreach (var optfunc in opts)
@@ -106,9 +107,16 @@ namespace pkSqlGrepTool.domain.sqlindex
                 opt = optfunc(opt);
             }
 
-            var idx = SqlMacher.General(sqlIndex.Sql, search, opt);
+            if (SqlMacher.General(sqlIndex.Sql, search, opt) >= 0)
+            {
+                return true;
+            }
 
-            return idx >= 0;
+            if (opt.includesCaption && SqlMacher.General(sqlIndex.Title, search, opt) >= 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static Func<searchOpt, searchOpt> withRegex(bool flg)
@@ -132,6 +140,14 @@ namespace pkSqlGrepTool.domain.sqlindex
             return (opt) =>
             {
                 opt.ignoreCase = flg;
+                return opt;
+            };
+        }
+        public static Func<searchOpt, searchOpt> withIncludesCaption(bool flg)
+        {
+            return (opt) =>
+            {
+                opt.includesCaption = flg;
                 return opt;
             };
         }
