@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using pkSqlGrepTool.Properties;
 using System.Threading;
 
+
 namespace pkSqlGrepTool
 {
     public partial class MainForm : Form
@@ -22,6 +23,7 @@ namespace pkSqlGrepTool
 
         CancellationTokenSource ts = null;
         Task currentTask = null;
+        bool allSelect_eventGuard = false;
 
         List<SqlIndex> listSqls = new List<SqlIndex>();
 
@@ -89,7 +91,6 @@ namespace pkSqlGrepTool
                 })
                 .ContinueWith((t) =>
                 {
-                    Task.Delay(50).Wait();
                     this.Invoke(new Action(drawEndLoadIndex));
                     currentTask = null;
                 })
@@ -142,7 +143,6 @@ namespace pkSqlGrepTool
 
         private void findContent(string find)
         {
-            //rtContent.SelectionBackColor = Color.Empty;
             if (find == "")
             {
                 return;
@@ -206,6 +206,7 @@ namespace pkSqlGrepTool
         {
             Task.Run(() =>
             {
+                allSelect_eventGuard = true;
                 this.Invoke(new Action(() =>
                 {
                     for (var i = 0; i < lbList.Items.Count; i++)
@@ -213,6 +214,7 @@ namespace pkSqlGrepTool
                         lbList.SetSelected(i, true);
                     }
                 }));
+                allSelect_eventGuard = false;
             });
         }
 
@@ -223,7 +225,7 @@ namespace pkSqlGrepTool
                 lbList.ClearSelected();
                 foreach (var i in indices)
                 {
-                    //lbList.SetSelected(i, true);
+                    lbList.SetSelected(i, true);
                 }
             });
         }
@@ -275,13 +277,23 @@ namespace pkSqlGrepTool
 
         private void drawSqlContext()
         {
+            if (currentTask != null)
+            {
+                return;
+            }
+
             enterTask("ファイル内容描画中...");
 
-            var items = new List<SqlIndex>(lbList.SelectedItems.OfType<SqlIndex>());
+            var items = new List<SqlIndex>();
+            items.AddRange(lbList.SelectedItems.OfType<SqlIndex>());
             var result = "";
 
-            assignTask(() =>
-            {
+            assignTask(
+                () =>
+                {
+                    Thread.Sleep(50);
+                }).ContinueWith(
+                (t) => {
                 var sqlTexts = items.Select((idx) =>
                                 {
                                     return "-- "
@@ -298,7 +310,9 @@ namespace pkSqlGrepTool
                     HilightWord = "";
                 }));
             })
-            .ContinueWith((t) => { releaseTask(); });
+            .ContinueWith((t) => {
+                releaseTask();
+            });
         }
 
         private void drawError(string error)
@@ -328,6 +342,10 @@ namespace pkSqlGrepTool
 
         private void lbList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (allSelect_eventGuard && lbList.SelectedItems.Count != lbList.Items.Count)
+            {
+                return;
+            }
             drawSqlContext();
         }
 
