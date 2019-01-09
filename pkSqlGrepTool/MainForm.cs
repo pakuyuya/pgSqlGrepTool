@@ -37,6 +37,7 @@ namespace pkSqlGrepTool
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            setWindowCaption();
             requestLoadIndex();
         }
     
@@ -73,6 +74,15 @@ namespace pkSqlGrepTool
         }
 
         // inner action
+
+        private async void setWindowCaption()
+        {
+            string caption = await Global.GetAppName();
+            if (caption != "")
+            {
+                this.Text = caption;
+            }
+        }
 
         private void requestLoadIndex()
         {

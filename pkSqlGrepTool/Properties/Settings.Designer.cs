@@ -94,5 +94,17 @@ namespace pkSqlGrepTool.Properties {
                 this["OpenTempfileExt"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\version.txt")]
+        public string File_TitleCaption {
+            get {
+                return ((string)(this["File_TitleCaption"]));
+            }
+            set {
+                this["File_TitleCaption"] = value;
+            }
+        }
     }
 }
