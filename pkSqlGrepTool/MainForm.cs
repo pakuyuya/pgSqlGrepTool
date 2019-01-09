@@ -148,7 +148,7 @@ namespace pkSqlGrepTool
                 return;
             }
             var cont = rtContent.Text.ToLower();
-            int startIdx = Math.Min((rtContent.SelectionStart) + find.Length, cont.Length-1);
+            int startIdx = (rtContent.SelectionLength <= 0) ? Math.Max(rtContent.SelectionStart, 0) : Math.Min(rtContent.SelectionStart + find.Length, cont.Length - 1);
 
             if (startIdx < 0)
             {
@@ -168,7 +168,6 @@ namespace pkSqlGrepTool
             }
 
             rtContent.Select(resultIdx, find.Length);
-            rtContent.ScrollToCaret();
 
             if (HilightWord != find)
             {
